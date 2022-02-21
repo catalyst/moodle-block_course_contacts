@@ -141,19 +141,12 @@ class block_course_contacts extends block_base {
     public function get_content() {
         global $OUTPUT, $USER, $COURSE;
 
-        // If the user hasnt configured the plugin, set these as defaults.
+        // If the user hasnt configured the plugin, use the site-configured settings as the defaults.
         if (empty($this->config)) {
-            $this->config = new stdclass();
-            $this->config->role_3 = 1;
-            $this->config->email = 1;
-            $this->config->message = 1;
-            $this->config->phone = 0;
-            $this->config->description = 0;
-            $this->config->hide_block_guest = 1;
-            $this->config->email_guest = 0;
-            $this->config->message_guest = 0;
-            $this->config->phone_guest = 0;
-            $this->config->description_guest = 0;
+            $globalconfig = get_config('block_course_contacts');
+            // Unset config not related to default set
+            unset($globalconfig->autocreateoninfopage);
+            $this->config = $globalconfig;
         }
 
         $courseid = $this->page->course->id;
