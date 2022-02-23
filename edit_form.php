@@ -107,6 +107,10 @@ class block_course_contacts_edit_form extends block_edit_form {
         $mform->addHelpButton('config_use_altname', 'how_altname_works', 'block_course_contacts');
         $mform->setAdvanced('config_use_altname');
 
+        $mform->addElement('selectyesno', 'config_group', get_string('group', 'block_course_contacts'));
+        $mform->setDefault('config_group', 0);
+        $mform->setType('config_group', PARAM_INT);
+
         // This section builds a list of the roles available within this context for selection.
         $mform->addElement('header', 'configheader', get_string('roles', 'block_course_contacts'));
 

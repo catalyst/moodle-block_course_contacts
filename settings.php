@@ -97,6 +97,9 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configselect('block_course_contacts/use_altname',
         get_string('use_altname', 'block_course_contacts'), '', 0, $yesno));
 
+    $settings->add(new admin_setting_configselect('block_course_contacts/group',
+        get_string('group', 'block_course_contacts'), '', 0, $yesno));
+
     // This section builds a list of the roles available within this context for selection.
     $settings->add(new admin_setting_heading('block_course_contacts/rolesheader',
         get_string('roles', 'block_course_contacts'), ''));
