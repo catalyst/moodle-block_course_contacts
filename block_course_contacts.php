@@ -139,7 +139,7 @@ class block_course_contacts extends block_base {
      * @return $this->content
      */
     public function get_content() {
-        global $OUTPUT, $USER, $COURSE;
+        global $COURSE, $OUTPUT, $USER;
 
         // If the user hasnt configured the plugin, use the site-configured settings as the defaults.
         if (empty($this->config)) {
@@ -199,7 +199,11 @@ class block_course_contacts extends block_base {
         $userfields = user_picture::fields('u', ['lastaccess', 'phone1', 'description']);
 
         $currentgroup = groups_get_course_group($COURSE, true, false);
-        $content .= groups_print_course_menu($COURSE, new moodle_url('/course/view.php?id='.$courseid), true);
+        if ($this->config->group) {
+            $url = $this->page->url;
+            $url->param('id', $courseid);
+            $content .= groups_print_course_menu($COURSE, $url, true);
+        }
 
         $clist = array();
         foreach ($roles as $key => $role) {
