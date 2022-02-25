@@ -221,37 +221,37 @@ class block_course_contacts extends block_base {
                         }
                     }
                     // Now display each contact.
+                    $contactcards = [];
                     foreach ($contacts as $contact) {
                         if (!in_array($contact->id, $clist)) {
                             $clist[] = $contact->id;
-                            $content .= html_writer::start_tag('div', array('class' => 'ccard'));
-                            $content .= $OUTPUT->user_picture($contact, array('size' => 50));
-                            $content .= html_writer::start_tag('div', array('class' => 'info'));
+                            $cardcontent = html_writer::start_tag('div', array('class' => 'ccard'));
+                            $cardcontent .= $OUTPUT->user_picture($contact, array('size' => 50));
+                            $cardcontent .= html_writer::start_tag('div', array('class' => 'info'));
                             if ($contact->lastaccess > (time() - 300)) {
                                 $status = 'online';
                             } else {
                                 $status = 'offline';
                             }
-                            $content .= html_writer::start_tag('div', array('class' => 'name '.$status));
+                            $cardcontent .= html_writer::start_tag('div', array('class' => 'name '.$status));
 
                             // Check block configuration for use_altname to determine the name to display.
                             if (isset($this->config->use_altname)
                                 && $this->config->use_altname == 1
                                 && $contact->alternatename != '') {
-                                $content .= $contact->alternatename;
+                                $cardcontent .= $contact->alternatename;
                             } else {
                                 // Use first and last names and truncate as necessary.
-                                $content .= $contact->firstname." ".$contact->lastname;
+                                $cardcontent .= $contact->firstname." ".$contact->lastname;
                             }
 
-                            $content .= html_writer::end_tag('div');
-                            $content .= html_writer::empty_tag('img', array(
+                            $cardcontent .= html_writer::end_tag('div');
+                            $cardcontent .= html_writer::empty_tag('img', array(
                                 'src' => $OUTPUT->image_url($status, 'block_course_contacts'),
                                 'title' => get_string($status, 'block_course_contacts'),
                                 'alt' => get_string($status, 'block_course_contacts'),
                                 'class' => 'status'));
-                            $content .= html_writer::empty_tag('hr');
-                            $content .= html_writer::start_tag('div', array('class' => 'comms'));
+                            $cardcontent .= html_writer::start_tag('div', array('class' => 'comms'));
 
                             // Unless they are us.
                             if ($USER->id != $contact->id) {
@@ -259,7 +259,7 @@ class block_course_contacts extends block_base {
                                 if ((!$isguest && $this->config->email == 1)
                                     || ($isguest && $this->config->email_guest == 1)) {
                                     $url = 'mailto:'.strtolower($contact->email);
-                                    $content .= html_writer::link($url, html_writer::empty_tag('img', array(
+                                    $cardcontent .= html_writer::link($url, html_writer::empty_tag('img', array(
                                         'src' => $OUTPUT->image_url('mail', 'block_course_contacts'),
                                         'title' => get_string('email', 'block_course_contacts').' '.$contact->firstname,
                                         'alt' => get_string('email', 'block_course_contacts').' '.$contact->firstname)),
@@ -269,7 +269,7 @@ class block_course_contacts extends block_base {
                                 if ((!$isguest && $this->config->message == 1)
                                     || ($isguest && $this->config->message_guest == 1)) {
                                     $url = new moodle_url('/message/index.php', array('id' => $contact->id));
-                                    $content .= html_writer::link($url, html_writer::empty_tag('img', array(
+                                    $cardcontent .= html_writer::link($url, html_writer::empty_tag('img', array(
                                         'src' => $OUTPUT->image_url('message', 'block_course_contacts'),
                                         'title' => get_string('message', 'block_course_contacts').' '.$contact->firstname,
                                         'alt' => get_string('message', 'block_course_contacts').' '.$contact->firstname)),
@@ -280,7 +280,7 @@ class block_course_contacts extends block_base {
                                     && ((!$isguest && $this->config->phone == 1)
                                     || ($isguest && $this->config->phone_guest == 1))) {
                                     $url = 'tel:'.$contact->phone1;
-                                    $content .= html_writer::link($url, html_writer::empty_tag('img', array(
+                                    $cardcontent .= html_writer::link($url, html_writer::empty_tag('img', array(
                                         'src' => $OUTPUT->image_url('phone', 'block_course_contacts'),
                                         'title' => get_string('phone', 'block_course_contacts').' '.$contact->phone1,
                                         'alt' => get_string('phone', 'block_course_contacts').' '.$contact->phone1)),
@@ -288,14 +288,14 @@ class block_course_contacts extends block_base {
                                 }
                             }
 
-                            $content .= html_writer::end_tag('div');
-                            $content .= html_writer::end_tag('div');
+                            $cardcontent .= html_writer::end_tag('div');
+                            $cardcontent .= html_writer::end_tag('div');
                             if ($contact->description != ""
                                 && ((!$isguest && $this->config->description == 1)
                                 || ($isguest && $this->config->description_guest == 1))) {
-                                $content .= html_writer::start_tag('div', array('class' => 'description'));
+                                $cardcontent .= html_writer::start_tag('div', array('class' => 'description'));
                                 $usercontext = context_user::instance($contact->id);
-                                $content .= substr(
+                                $cardcontent .= substr(
                                     format_text(
                                         file_rewrite_pluginfile_urls(
                                             $contact->description,
@@ -310,11 +310,13 @@ class block_course_contacts extends block_base {
                                     0,
                                     199
                                 );
-                                $content .= html_writer::end_tag('div');
+                                $cardcontent .= html_writer::end_tag('div');
                             }
-                            $content .= html_writer::end_tag('div');
+                            $cardcontent .= html_writer::end_tag('div');
+                            $contactcards[] = $cardcontent;
                         }
                     }
+                    $content .= implode(html_writer::empty_tag('hr'), $contactcards);
                 }
             }
         }
