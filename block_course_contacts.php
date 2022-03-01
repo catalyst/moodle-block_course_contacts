@@ -199,7 +199,7 @@ class block_course_contacts extends block_base {
         $userfields = user_picture::fields('u', ['lastaccess', 'phone1', 'description']);
 
         $currentgroup = groups_get_course_group($COURSE, true, false);
-        if ($this->config->group) {
+        if (!empty($this->config->group)) {
             $url = $this->page->url;
             $url->param('id', $courseid);
             $content .= groups_print_course_menu($COURSE, $url, true);
