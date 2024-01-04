@@ -196,7 +196,9 @@ class block_course_contacts extends block_base {
         if (isset($this->config->inherit)) {
             $inherit = $this->config->inherit;
         }
-        $userfields = user_picture::fields('u', ['lastaccess', 'phone1', 'description']);
+
+        $userfields = \core_user\fields::for_userpic()->including('lastaccess', 'phone1', 'description');
+        $userfields = $userfields->get_sql('u', false, '', '', false)->selects;
 
         $currentgroup = groups_get_course_group($COURSE, true, false);
         if (!empty($this->config->group)) {
