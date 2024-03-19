@@ -66,6 +66,7 @@ $string['send'] = 'Send';
 $string['sendanemail'] = 'Send an Email';
 $string['settings:autocreateoninfopage'] = 'Auto create on course info';
 $string['settings:autocreateoninfopage_help'] = 'Enabling this will automatically insert this block on the course info page if one is not already present.';
+$string['showuserpicture'] = 'Show user profile picture';
 $string['simpleemail'] = 'Use Simple Email?';
 $string['simpleemaildesc'] = 'Use Simple Email form integrated with Moodle instead of mailto: links?';
 $string['sortby'] = 'Sort Users By';

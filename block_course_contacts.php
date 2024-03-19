@@ -228,7 +228,12 @@ class block_course_contacts extends block_base {
                         if (!in_array($contact->id, $clist)) {
                             $clist[] = $contact->id;
                             $cardcontent = html_writer::start_tag('div', array('class' => 'ccard'));
-                            $cardcontent .= $OUTPUT->user_picture($contact, array('size' => 50));
+
+                            // Show user picture only if enabled in settings.
+                            if (!empty($this->config->showuserpicture)) {
+                                $cardcontent .= $OUTPUT->user_picture($contact, array('size' => 50));
+                            }
+
                             $cardcontent .= html_writer::start_tag('div', array('class' => 'info'));
                             if ($contact->lastaccess > (time() - 300)) {
                                 $status = 'online';
