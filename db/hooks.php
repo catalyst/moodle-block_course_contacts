@@ -15,22 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Block Course_Contacts version file.
+ * Hook callbacks.
  *
- * @package    block_course_contacts
- * @author     Mark Ward
- *             2020 Richard Oelmann
- * @copyright  Mark Ward
- * @copyright  2020 R. Oelmann
- *
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     course_contacts
+ * @author      Alexander Van der Bellen <alexandervanderbellen@catalyst-au.net>
+ * @copyright   2025 Catalyst IT Australia
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-    $plugin->version = 2020050101;  // YYYYMMDDHH (year, month, day, 24-hr time).
-    $plugin->requires = 2019052000; // YYYYMMDDHH (This is the release version for Moodle 2.0).
-    $plugin->release = '3.9.0.1'; // Plugin release.
-    $plugin->maturity   = MATURITY_STABLE;
-    $plugin->component = 'block_course_contacts'; // Full name of the plugin (used for diagnostics).
-    $plugin->supported = [401, 405];
+$callbacks = [
+    [
+        'hook' => \core\hook\output\before_http_headers::class,
+        'callback' => '\block_course_contacts\hook_callbacks::before_http_headers',
+        'priority' => 0,
+    ],
+];
