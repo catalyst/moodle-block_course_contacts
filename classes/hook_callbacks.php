@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace block_course_contacts;
-require_once($CFG->dirroot .'/blocks/course_contacts/lib.php');
+require_once(__DIR__ .'/../lib.php');
 
 /**
  * Hook callbacks.
