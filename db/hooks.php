@@ -25,10 +25,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../classes/hook_callbacks.php');
+use block_course_contacts\hook_callbacks;
+
+$class = hook_callbacks::class;
 $callbacks = [
     [
         'hook' => \core\hook\output\before_http_headers::class,
-        'callback' => '\block_course_contacts\hook_callbacks::before_http_headers',
+        'callback' => "{$class}::before_http_headers",
         'priority' => 0,
     ],
 ];
+
